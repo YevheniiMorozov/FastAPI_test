@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  database:
+    image: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTRES_PASSWORD: password
+      POSTGRES_DB: steam
+      POSTGRES_HOST_AUTH_METHOD: trust
+  app:
+    build: .
+    container_name: api_test
+    command: python3 app/add_value_to_db.py && uvicorn app.main:app --reload
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - database
+
+volumes:
+  postgres:

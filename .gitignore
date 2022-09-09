@@ -1,0 +1,3 @@
+/venv/
+/application/.pytest_cashe/
+app/.coverage
